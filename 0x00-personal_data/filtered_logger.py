@@ -7,9 +7,6 @@ from typing import List
 
 def filter_datum(fields: List[str], redaction: str, text: str, separator: str):
     ''' returns the log message with specified fields obfuscated '''
-
     for fi in fields:
-        text = re.sub('{}=.*?{}'.format(fi, separator),
-                      '{}={}{}'.format(fi, redaction, separator), text)
-
+        text = re.sub(r'{}=.+?{}'.format(fi, separator), r'{}={}{}'.format(fi, redaction, separator), text)
     return text
