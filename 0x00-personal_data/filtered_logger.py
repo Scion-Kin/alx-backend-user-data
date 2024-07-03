@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 ''' This defines a function '''
 
-import re
 from typing import List
+import re
 
 
 def filter_datum(fields: List[str], redaction: str, text: str, separator: str):
