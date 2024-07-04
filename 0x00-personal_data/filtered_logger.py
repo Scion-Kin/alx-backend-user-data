@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-''' This defines a function '''
+''' This contains class and function definitons and a program '''
 
 from typing import List
 from mysql import connector
