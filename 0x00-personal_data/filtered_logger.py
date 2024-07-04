@@ -19,11 +19,13 @@ def filter_datum(fields: List[str], redaction: str,
 
 
 def get_logger() -> logging.Logger:
-    ''' defines a new logger '''
+    ''' returns a logger '''
 
-    logger = logging.Logger('user_data')
+    logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
-    streamHandler = logging.StreamHandler().setFormatter(RedactingFormatter)
+    streamHandler = logging.StreamHandler()
+    streamHandler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.propagate = False
     logger.addHandler(streamHandler)
     return logger
 
