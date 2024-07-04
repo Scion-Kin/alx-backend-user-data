@@ -2,8 +2,12 @@
 ''' This defines a function '''
 
 from typing import List
+import csv
 import logging
 import re
+
+
+PII_FIELDS = ("email", "phone", "ssn", "password", "ip")
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -13,6 +17,15 @@ def filter_datum(fields: List[str], redaction: str,
         message = re.sub(fr'{f}=[^{separator}]*', f'{f}={redaction}', message)
     return message
 
+
+def get_logger() -> logging.Logger:
+    ''' defines a new logger '''
+
+    logger = logging.Logger('user_data')
+    logger.setLevel(logging.INFO)
+    streamHandler = logging.StreamHandler().setFormatter(RedactingFormatter)
+    logger.addHandler(streamHandler)
+    return logger
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
