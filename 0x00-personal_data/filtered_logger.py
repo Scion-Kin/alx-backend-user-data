@@ -2,7 +2,7 @@
 ''' This contains class and function definitons and a program '''
 
 from typing import List
-from mysql import connector
+import mysql
 from os import getenv
 import logging
 import re
@@ -31,7 +31,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> connector.MySQLConnection:
+def get_db() -> mysql.connector.MySQLConnection:
     ''' returns a connector to the database '''
 
     host = getenv('PERSONAL_DATA_DB_HOST', 'localhost')
@@ -39,7 +39,7 @@ def get_db() -> connector.MySQLConnection:
     db_pwd = getenv('PERSONAL_DATA_DB_PASSWORD', '')
     db_name = getenv('PERSONAL_DATA_DB_NAME', '')
 
-    connection = connector.connect(host=host, user=db_user, port=3306,
+    connection = mysql.connector.connect(host=host, user=db_user, port=3306,
                                    password=db_pwd, database=db_name)
     return connection
 
