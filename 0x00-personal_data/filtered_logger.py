@@ -27,6 +27,7 @@ def get_logger() -> logging.Logger:
     logger.addHandler(streamHandler)
     return logger
 
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
