@@ -3,7 +3,7 @@
 
 from typing import List
 import mysql.connector
-from os import getenv
+import os
 import logging
 import re
 
@@ -40,7 +40,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     db_name = getenv('PERSONAL_DATA_DB_NAME', '')
 
     connection = mysql.connector.connect(host=host, user=db_user, port=3306,
-                                   password=db_pwd, database=db_name)
+                                         password=db_pwd, database=db_name)
     return connection
 
 
