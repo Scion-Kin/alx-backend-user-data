@@ -4,7 +4,7 @@
 from bcrypt import gensalt, hashpw
 
 
-def hash_password(password: str) -> bytes:
-    ''' hashes a password '''
+def hash_password(password: str) -> bytearray:
+    ''' returns a hashed password '''
 
     return hashpw(password.encode('utf-8'), gensalt())
