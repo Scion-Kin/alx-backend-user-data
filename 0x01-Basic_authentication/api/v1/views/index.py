@@ -27,7 +27,7 @@ def stats() -> str:
 
 
 @app_views.route('/api/v1/unauthorized', strict_slashes=False)
-def unauthorized():
+def unauthorized() -> None:
     ''' aborts the request with an unauthorized code '''
 
     abort(401)
