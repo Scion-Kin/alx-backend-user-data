@@ -21,3 +21,8 @@ class SessionAuth(Auth):
         SessionAuth.user_id_by_session_id[ses_id] = user_id
 
         return ses_id
+
+    def user_id_for_session_id(self, session_id: str = None) -> str:
+        ''' returns a User ID associated with a Session ID '''
+
+        return SessionAuth.user_id_by_session_id.get(session_id, None)
