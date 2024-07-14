@@ -6,6 +6,7 @@ from os import getenv
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_exp_auth import SessionExpAuth
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
@@ -19,7 +20,8 @@ auth = None
 auth_type = getenv('AUTH_TYPE', 'auth')
 auths = {"auth": Auth(),
          "basic_auth": BasicAuth(),
-         "session_auth": SessionAuth()}
+         "session_auth": SessionAuth(),
+         "session_exp_auth": SessionExpAuth()}
 
 auth = auths.get(auth_type)
 
@@ -70,4 +72,4 @@ def before_req():
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
-    app.run(host=host, port=port, debug=True)
+    app.run(host=host, port=port)
