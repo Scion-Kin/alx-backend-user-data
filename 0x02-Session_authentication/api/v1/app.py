@@ -6,6 +6,7 @@ from os import getenv
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_db_auth import SessionDBAuth
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -16,12 +17,13 @@ import os
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
-auth = None
+
 auth_type = getenv('AUTH_TYPE', 'auth')
-auths = {"auth": Auth(),
-         "basic_auth": BasicAuth(),
+
+auths = {"auth": Auth(), "basic_auth": BasicAuth(),
          "session_auth": SessionAuth(),
-         "session_exp_auth": SessionExpAuth()}
+         "session_exp_auth": SessionExpAuth(),
+         "session_db_auth": SessionDBAuth()}
 
 auth = auths.get(auth_type)
 
