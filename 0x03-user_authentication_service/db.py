@@ -32,9 +32,13 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         ''' creates a new user object '''
+        try:
+            user = User(email=email, hashed_password=hashed_password)
+            self._session.add(new_user)
+            self._session.commit()
 
-        user = User(email=email, hashed_password=hashed_password)
-        session = self._session
-        session.add(user)
-        session.commit()
+        except Exception:
+            self._session.rollback()
+            user = None
+
         return user
