@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -42,11 +42,17 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         ''' Find the first user that matches the input arguments '''
-        if not kwargs:
-            raise InvalidRequestError
 
-        try:
-            return self._session.query(User).filter_by(**kwargs).first()
-
-        except Exception:
-            raise NoResultFound
+        fields, values = [], []
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                fields.append(getattr(User, key))
+                values.append(value)
+            else:
+                raise InvalidRequestError()
+        result = self._session.query(User).filter(
+            tuple_(*fields).in_([tuple(values)])
+        ).first()
+        if result is None:
+            raise NoResultFound()
+        return result
