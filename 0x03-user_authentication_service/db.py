@@ -40,7 +40,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict) -> User:
         ''' Find the first user that matches the input arguments '''
         if not kwargs:
             raise InvalidRequestError
