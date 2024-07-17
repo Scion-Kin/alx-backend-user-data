@@ -44,6 +44,9 @@ class DB:
     def find_user_by(self, **kwargs: dict) -> User:
         ''' Find the first user that matches the input arguments '''
 
+        if not kwargs:
+            raise InvalidRequestError
+
         user = self._session.query(User).filter_by(**kwargs).first()
 
         if user is None:
