@@ -41,16 +41,25 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         ''' Find the first user that matches the input arguments '''
+
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
+
+        return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        ''' Updates the properties of a User object '''
+
+        user = self.find_user_by(id=user_id)
 
         for key, val in kwargs.items():
             if not hasattr(User, key):
-                raise InvalidRequestError()
+                raise ValueError
 
-        user = self._session.query(User).filter_by(**kwargs).first()
+            else:
+                setattr(user, key, val)
 
-        if user is None:
-            raise NoResultFound()
-
-        return user
+        self._session.commit()
