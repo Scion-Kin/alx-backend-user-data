@@ -46,11 +46,11 @@ class DB:
 
         for key, val in kwargs.items():
             if not hasattr(User, key):
-                raise InvalidRequestError
+                raise InvalidRequestError()
 
         user = self._session.query(User).filter_by(**kwargs).first()
 
         if user is None:
-            raise NoResultFound
+            raise NoResultFound()
 
         return user
