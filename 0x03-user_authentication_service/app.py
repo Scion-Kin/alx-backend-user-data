@@ -3,7 +3,6 @@
 
 from flask import Flask, jsonify, request, abort, make_response, redirect
 from auth import Auth
-from typing import Callable
 
 AUTH = Auth()
 app = Flask(__name__)
@@ -44,18 +43,21 @@ def login():
     return resp
 
 
-@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
-def logout() -> str:
-    """DELETE /sessions
-    Return:
-        - Redirects to home route.
-    """
-    session_id = request.cookies.get("session_id")
+@app.route('/sessions', methods=['DELETE'])
+def logout():
+    ''' Deletes a user session (Logs out the user) '''
+
+    session_id = request.cookies.get('session_id')
+
+    if session_id is None:
+        abort(403)
+
     user = AUTH.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
+
     AUTH.destroy_session(user.id)
-    return redirect("/")
+    return redirect('/')
 
 
 if __name__ == "__main__":
