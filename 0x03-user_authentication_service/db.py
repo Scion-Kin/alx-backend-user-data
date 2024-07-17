@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine, tuple_
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -18,7 +18,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=False)
+        self._engine = create_engine("sqlite:///a.db")
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -34,25 +34,19 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         ''' creates a new user object '''
+
         user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
+
+        self._session.add(user), self._session.commit()
 
         return user
 
     def find_user_by(self, **kwargs: dict) -> User:
         ''' Find the first user that matches the input arguments '''
 
-        fields, values = [], []
-        for key, value in kwargs.items():
-            if hasattr(User, key):
-                fields.append(getattr(User, key)), values.append(value)
-            else:
-                raise InvalidRequestError()
+        user = self._session.query(User).filter_by(**kwargs).first()
 
-        result = self._session.query(User).filter(
-            tuple_(*fields).in_([tuple(values)])).first()
+        if user is None:
+            raise NoResultFound
 
-        if result is None:
-            raise NoResultFound()
-        return result
+        return user
