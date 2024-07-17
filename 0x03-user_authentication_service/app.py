@@ -36,7 +36,8 @@ def login():
     if not email or not password or not AUTH.valid_login(email, password):
         abort(401)
 
-    resp = make_response(jsonify({"email": f"{email}", "message": "logged in"}))
+    resp = make_response(jsonify({"email": f"{email}",
+                                  "message": "logged in"}))
     resp.set_cookie("session_id", AUTH.create_session(email))
 
     return resp
