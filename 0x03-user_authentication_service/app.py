@@ -3,6 +3,7 @@
 
 from flask import Flask, jsonify, request, abort, make_response, redirect
 from auth import Auth
+from typing import Callable
 
 AUTH = Auth()
 app = Flask(__name__)
@@ -44,7 +45,7 @@ def login():
 
 
 @app.route('/sessions', methods=['DELETE'])
-def logout() -> str:
+def logout() -> Callable:
     ''' Deletes a user session (Logs out the user) '''
 
     session_id = request.cookies.get('session_id')
