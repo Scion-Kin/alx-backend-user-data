@@ -76,7 +76,7 @@ def profile():
     return jsonify({"email": f"{user.email}"})
 
 
-@app.route('/reset_password')
+@app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
     ''' Returns a user's password reset token '''
 
