@@ -16,7 +16,7 @@ def home():
 
 @app.route('/users', methods=['POST'])
 def users():
-
+    ''' The signup method/route '''
     email, password = request.form.get('email'), request.form.get('password')
     if not email or not password:
         return jsonify()
